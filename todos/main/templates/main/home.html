@@ -1,0 +1,50 @@
+{% extends 'main/base.html'%}
+
+{% block title %} Home {{ block.super }}{% endblock title %}
+{% block body_block %}
+{# <div class="container"> #}
+  <h4>Today is {{ today }}</h4>
+  <p>{{ app_name }}</p>
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Due date</th>
+        <th scope="col">Done</th>
+        <th scope="col">Description</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      {% for todo in todos %}
+        {% if todo.done %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><a href="{% url 'update' pk=todo.pk %}">{{todo.title}}</a></td>
+            <td>{{ todo.due_date}}</td>
+            <td>{{ todo.done|yesno:'Yes,No' }}</td>
+            <td>{{ todo.description|truncatewords:5}}</td>
+            <td><a class='btn btn-primary' href="{% url 'detail' pk=todo.pk %}">Show</a></td>
+          </tr>
+
+        {% else %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <!-- <td>{{todo.title}}</td> -->
+            <td><a href="{% url 'update' pk=todo.pk %}">{{todo.title}}</a></td>
+          <td>{{ todo.due_date}}</td>
+          <td>{{ todo.done|yesno:"Yes,No" }}</td>
+          <td>{{ todo.description|truncatewords:5}}</td>
+          <td><a class='btn btn-primary' href="{% url 'detail' pk=todo.pk %}">Show</a></td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+{# </div> #}
+
+
+
+{% endblock %}
